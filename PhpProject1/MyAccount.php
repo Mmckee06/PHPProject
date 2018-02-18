@@ -83,7 +83,7 @@
         if (empty($_SESSION['token'])) {
             $_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(32));
         }
-        //Reqest submitted 
+        //Reqest submitted to update
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             //Get entered values
             $myusername = test_input(($_SESSION['login_user']));
@@ -103,7 +103,7 @@
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             //Changed password clicked
             if (isset($_POST['changePassword'])) {
-                //Perform checks
+                //Perform password checks
                 if ($_POST['password1'] != $_POST['password2']) {
                     $error = 'New passwords should be the same<br>';
                 } else if (empty($_POST["password"])) {
@@ -121,7 +121,7 @@
             } else if (preg_match('/[0-9]/', $mypassword1) === 0){
                 $error = 'Passwords must contain at least 1 numerical characters<br>';
             } else {
-                    ///Checks passed, update users password
+                    ///Checks passed, update users password on database
                     $stmt = $db->prepare("UPDATE CUSTOMER SET PASSWORD=? WHERE USERNAME=?");
                     $stmt->bind_param("ss", $mypassword1, $myusername);
                     $stmt->execute();
@@ -131,13 +131,13 @@
                     $sucess = "Password changed successfully";
                     $stmt->close();
                 }
-            } else { //Change details button clicked
+            } else { //Change details button clicked, check no data is empty
                 if ($firstname === '' || $lastname === '' || $addr1 === '' || $addr2 === '' || $city === '' || $pcode === '' || $phone === '') {
                     $error1 = "All fields required";
                 } else if ($token1 != $_SESSION['token']) { //Check CSRF tokens match
                     $error1 = "Failed Request"; 
                 } else {
-                    //SQL Prepared statement
+                    //SQL Prepared statement, update users account on database
                     $stmt = $db->prepare("UPDATE customer SET LASTNAME=?, FIRSTNAME=?, AddressLine1=?, AddressLine2=?, CITY=?, POSTALCODE=?, PHONE=? WHERE USERNAME=?");
                     $stmt->bind_param("ssssssss", $lastname, $firstname, $addr1, $addr2, $city, $pcode, $phone, $myusername);
                     $stmt->execute();

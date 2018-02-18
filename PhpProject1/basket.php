@@ -38,6 +38,7 @@
 
         <?php
         include('session.php');
+        //Stores amount of items in basket
         $arrlength = count($_SESSION['cart']);
 
         //Response Headers
@@ -47,14 +48,13 @@
 
         $error = "";$price1 = 0;
         
-        
+        //User has clicked an action
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                //something posted
-
                 if (isset($_POST['removeItem'])) {
                     //Remove item from basket array
                     $position = $_POST['removeItem'];
                     //echo '<script type="text/javascript">alert("Data has been submitted to ' . $position . '");</script>';
+                    //Repositons items is session array as item has been deleted
                     unset($_SESSION['cart'][$position]);
                     unset($_SESSION['cartQunatity'][$position]);
                     $_SESSION['cart'] = array_values($_SESSION['cart']);
@@ -106,6 +106,7 @@
                             //Close query
                             mysqli_stmt_close($stmt);
                             
+                            //Keeps track tp price of items in basket
                             $TotalPrice = $TotalPrice + ($Price3 * $_SESSION['cartQunatity'][$x]);
 
                             $quantity = $Quantity2 - ($_SESSION['cartQunatity'][$x]);
@@ -238,8 +239,6 @@
                 $price1 = $price1 + ($Price * $_SESSION['cartQunatity'][$x]);
             }
 
-
-           
             ?>
 
         </table>

@@ -37,7 +37,7 @@
         include("config.php");
         session_start();
 
-        //Form submitted
+        //Login Form submitted
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // username and password sent from form
@@ -56,7 +56,7 @@
             /* close statement */
             $stmt->close();
 
-            // If result matched $myusername and $mypassword, table row must be 1 row
+            // If result matched $myusername and $mypassword, table row must be 1 row. Checks are then made to ensure password meets password policy.
             if ($count == 1) {
                 if (strlen($mypassword) <=7) {
                     $_SESSION['userPasswordChange'] = $myusername;

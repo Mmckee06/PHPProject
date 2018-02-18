@@ -83,7 +83,7 @@
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             //something posted
   
-            //View order selected
+            //View order selected, redirest to page and set session with order details
             if (isset($_POST['viewOrder'])) {
                 header("location: viewOrder.php");
                 $_SESSION['viewOrder'] = $_POST['viewOrder'];

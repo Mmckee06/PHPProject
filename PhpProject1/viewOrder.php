@@ -136,7 +136,7 @@
         $items = array();
         $amount1 = array();
         
-        //Select item ID / Quantity of each product prder record returned and put in array
+        //Select item ID / Quantity of each product order record returned and put in array
         while($stmt->fetch())
         {
             array_push($items, $itemID);
@@ -147,7 +147,7 @@
         $stmt->close();
         
          $arrlength = count($items);
-        //Gather mre info on the items that are within order
+        //Gather more info on the items that are within order
         for ($x = 0; $x < $arrlength; $x++) {
                             $value = ($items[$x]);
                             $loop = $stmt = $db->prepare("SELECT ItemName, Price, ItemImage  FROM Store WHERE ItemID =?");

@@ -45,10 +45,6 @@
             header("location: LoginSuccess.php");
         }
         
-        if (empty($_SESSION['token'])) {
-            $_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(32));
-            }
-        
         ?>
 
 
@@ -80,14 +76,14 @@
         
         <br>
         <?php
-        
+        //Form Submited
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            //something posted
             //edit user clicked
             if (isset($_POST['editUser'])) {
+                //User brought to user edit page
                 header("location: editUser.php");
+                //Session which holds edit user details
                 $_SESSION['editUser'] = $_POST['editUser'];
-                
             } else if (isset($_POST['deleteUser'])) {
                 //Delete user clicked
                 $value2 = $_POST['deleteUser'];

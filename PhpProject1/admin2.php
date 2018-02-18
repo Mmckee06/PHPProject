@@ -1,7 +1,7 @@
 <html>
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <title>Admin</title>
+    <title>Admin Store</title>
 
     <meta charset="UTF-8">
 
@@ -59,6 +59,7 @@
             header("location: LoginSuccess.php");
         }
         
+        //Prevents XSS, encodes/strips input of any specail characters
         function test_input($data) {
             $data = trim($data);
             $data = stripslashes($data);
@@ -66,18 +67,18 @@
             return $data;
         }
         
+        //Form Submitted
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            //something posted
             //Edit item clicked
             if (isset($_POST['editItem'])) {
                 header("location: editItem.php");
                 $_SESSION['editItem'] = $_POST['editItem'];
-                
             } 
             
+            //Delete item from store
             if (isset($_POST['deleteItem'])) {
                 $value2 = $_POST['deleteItem'];
-                //Delete item from store
+                //Delete item from database
                 $stmt = $db->prepare("DELETE FROM Store WHERE ItemID=?");
                     $stmt->bind_param("i",$value2);
                     $stmt->execute();
@@ -85,6 +86,7 @@
                     //header("Location: admin2.php");
             } 
             
+            //Generates CSRF token if hasn't already
             if (empty($_SESSION['token'])) {
             $_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(32));
             }

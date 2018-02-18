@@ -84,7 +84,7 @@
         //Close query
         mysqli_stmt_close($stmt);
         
-        //Generate CSRF token if one doe not exist
+        //Generate CSRF token if one does not exist
         if (empty($_SESSION['token'])) {
             $_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(32));
         }

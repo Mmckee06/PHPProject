@@ -37,8 +37,10 @@
         $error = "";
         $myusername = $_SESSION['userPasswordChange'];
         
+        //User reuests hecnge password
          if ($_SERVER["REQUEST_METHOD"] == "POST") {
              
+             //Gets users current password from dtabase
              $stmt = $db->prepare("SELECT PASSWORD FROM customer WHERE username=?");
                     $stmt->bind_param("s", $myusername);
                     $stmt->execute();
@@ -56,12 +58,12 @@
                 mysqli_stmt_close($stmt);
 
                     if ($count == 1) {
-                //Gather users values  
+                //Gather users values from form 
                 $oldPassword = test_input(mysqli_real_escape_string($db, $_POST['oldPassword']));
                 $myNewPassword1 = test_input(mysqli_real_escape_string($db, $_POST['newPassword1']));
                 $myNewPassword2 = test_input(mysqli_real_escape_string($db, $_POST['newPassword2']));
                 
-                //Checks
+                //Checks old password current, current password match and password policy is implemented
                 if ($oldPassword === '' || $myNewPassword1 === '' || $myNewPassword2 === '') {
                     $error = "All fields required<br>";
                 } else if ($currentOldPassword != $oldPassword) {
@@ -85,7 +87,7 @@
 
             }
                       
-                    } else { // No user locate to login
+                    } else { // No user, locate to login
                         $_SESSION['userPasswordChange'] = null;
                         header("location: Homepage.php");
                     }

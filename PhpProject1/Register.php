@@ -45,7 +45,7 @@
                 break;
             }
             
-            //Request sent
+            //Request sent to register
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // Data sent from form 
@@ -73,12 +73,12 @@
                 $error = 'Passwords must contain at least 1 numerical characters<br>';
             }else {
 
-                    //Query to database, Prepared statement
+                    //Query to database, Prepared statement to check if username exists already
                     $stmt = $db->prepare("SELECT customerId FROM customer WHERE username=?");
                     $stmt->bind_param("s", $myusername);
                     $stmt->execute();
 
-                    //Ensure 1 customer is returned or none
+                    //1 customer is returned if username is already in use
                     $stmt->store_result();
                     $count = $stmt->num_rows;
 
